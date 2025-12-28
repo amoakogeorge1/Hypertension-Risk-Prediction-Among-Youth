@@ -1,5 +1,3 @@
-Here is an updated single `README.md` incorporating the author (Arif Miah) and Apache 2.0 license details.[1]
-
 ```markdown
 # Hypertension Risk Prediction in Young Adults
 

@@ -1,131 +1,158 @@
-🩺 Hypertension Risk Prediction Using Machine Learning
-🔍 1. What Problem Does This Solve?
+Here is an updated single `README.md` incorporating the author (Arif Miah) and Apache 2.0 license details.[1]
 
-This project predicts the likelihood of a person developing hypertension using lifestyle, behavioral, and clinical features.
+```markdown
+# Hypertension Risk Prediction in Young Adults
 
-💡 2. Business / Public Health Impact
+This repository contains a reproducible machine learning project that predicts **hypertension risk** using demographic, lifestyle, and clinical history features. The goal is to build an end‑to‑end, storytelling notebook that not only trains accurate models but also explains **why** they work and **how** the results can inform prevention and screening strategies. [file:1]
 
-Hypertension is one of the leading causes of stroke, heart disease, and kidney failure—yet many cases remain undiagnosed until complications occur.
+The project is implemented in Python using a Kaggle hypertension dataset created by **Arif Miah**, and compares a simple **Logistic Regression** baseline with a more flexible **Random Forest** model. It is aimed at data science learners, health data enthusiasts, and anyone interested in applying ML to public health problems. [file:1]
 
-Using this model:
+---
 
-Early prediction helps clinicians target individuals who need screening.
+## Project structure
 
-A community health program could identify up to 97% of high-risk individuals (based on model accuracy).
+- `hypertension-risk-prediction.ipynb`  
+  Main Jupyter notebook containing:
+  - Problem framing and objectives  
+  - Data overview and exploratory data analysis (EDA)  
+  - Data preparation and feature engineering  
+  - Model training and evaluation (Logistic Regression, Random Forest)  
+  - Model interpretation via feature importance  
+  - Limitations, future work, and replication notes [file:1]
 
-Targeted interventions can reduce long-term healthcare costs associated with untreated hypertension.
+---
 
-🛠 3. What I Did
+## Dataset
 
-Loaded and cleaned a dataset containing demographic, lifestyle, and clinical variables.
+This project uses the **Hypertension Dataset** by **Arif Miah**, hosted on **Kaggle**, licensed under the **Apache 2.0 License**. Please refer to the Kaggle dataset page for full license terms. [file:1]
 
-Performed exploratory data analysis (EDA) with summary statistics and visualizations.
+The dataset includes:
 
-Encoded categorical variables and prepared the dataset for modeling.
+- Demographic variables (e.g., age)  
+- Lifestyle factors (e.g., BMI, stress score, sleep duration, salt intake, exercise level, smoking status)  
+- Clinical history (e.g., blood pressure history, medication use)  
+- Target label: `Has_Hypertension` (Yes/No)
 
-Trained multiple machine-learning models:
+To comply with licensing and Kaggle’s terms, the dataset itself is **not** stored in this repository. Instead:
 
-Logistic Regression
+1. Go to Kaggle and search for the **Hypertension Dataset** by **Arif Miah**.  
+2. Download `hypertension_dataset.csv`, or add the dataset as an input to a Kaggle Notebook.  
+3. If running locally, place the CSV in a `data/` directory and update the path in the notebook if needed, e.g.:
 
-Random Forest Classifier
+```
+file_path = "data/hypertension_dataset.csv"
+df = pd.read_csv(file_path)
+```
 
-Evaluated models using accuracy, F1-score, recall, and confusion matrices.
+---
 
-Identified key risk-driving features using feature importance.
+## How to run the notebook
 
-Selected the Random Forest model (97% accuracy) as the best performer.
+### 1. Clone the repository
 
-📌 4. Key Findings
+```
+git clone https://github.com/<your-username>/hypertension-risk-prediction.git
+cd hypertension-risk-prediction
+```
 
-Blood Pressure History is the strongest predictor of hypertension.
+### 2. Set up a Python environment
 
-Other important factors include:
+Using `conda` (example):
 
-Age
+```
+conda create -n hypertenv python=3.11 -y
+conda activate hypertenv
+pip install -r requirements.txt  # or install the packages below
+```
 
-Salt intake
+Required packages:
 
-Stress scores
+- `pandas`  
+- `numpy`  
+- `matplotlib`  
+- `seaborn`  
+- `scikit-learn`  
+- `jupyter`  
 
-BMI
+### 3. Add the dataset
 
-Sleep duration
+- Download the Kaggle hypertension dataset by Arif Miah and place it under `data/`:
 
-The Random Forest model showed:
+```
+mkdir -p data
+# move hypertension_dataset.csv into data/
+```
 
-97% accuracy
+- Ensure the path in the notebook matches the file location.
 
-High sensitivity for detecting hypertensive individuals
+### 4. Run the notebook
 
-Lifestyle and behavioral variables contributed significantly to prediction.
+Start Jupyter:
 
-🧭 5. Recommended Actions
+```
+jupyter notebook
+```
 
-Based on model insights:
+Open `hypertension-risk-prediction.ipynb` and run all cells from top to bottom to:
 
-For Public Health Practitioners
+1. Load and inspect the dataset.  
+2. Perform EDA (class balance, feature distributions, correlations).  
+3. Handle missing values and encode categorical variables.  
+4. Split and scale the data.  
+5. Train and evaluate Logistic Regression and Random Forest models.  
+6. Analyze feature importance and draw domain insights.  
+7. Summarize limitations and future work. [file:1]
 
-Prioritize screening individuals with past BP history, high BMI, and high salt intake.
+---
 
-Increase awareness about stress management and sleep hygiene.
+## Key results
 
-For Clinicians
+- **Class balance**: Hypertension is nearly balanced in this sample (≈52% Yes, 48% No).  
+- **Logistic Regression**  
+  - Accuracy: **0.819**  
+  - Hypertension precision: **0.83**, recall: **0.81**, F1: **0.82**  
+- **Random Forest**  
+  - Accuracy: **0.960**  
+  - Hypertension precision: **0.95**, recall: **0.98**, F1: **0.96**  
 
-Use model outputs to flag high-risk individuals during routine checks.
+Random Forest significantly reduces false negatives compared to Logistic Regression, making it more suitable for screening scenarios where missing hypertensive individuals is costly. [file:1]
 
-Combine model predictions with clinical judgement for early intervention.
+Feature importance highlights: [file:1]
 
-For Community Health Programs
+- **BP_History** (~29.5%) – strongest predictor.  
+- **Age**, **Stress_Score**, **BMI**, **Salt_Intake**, **Sleep_Duration** – important lifestyle/physiological factors.  
+- **Family_History** and **Smoking_Status** – moderate contributors.  
 
-Design youth-focused education on salt diet, exercise, and stress.
+---
 
-Target early detection initiatives around campuses or communities.
+## How to extend or replicate
 
-🧪 6. How to Run the Notebook
-Requirements
+You can extend this project in several directions: [file:1]
 
-Python 3.10+
+- Try additional models such as Gradient Boosting, XGBoost, or LightGBM.  
+- Use k‑fold cross‑validation for more robust performance estimates.  
+- Experiment with different encodings for categorical variables (one‑hot, target encoding).  
+- Add SHAP or partial dependence plots for deeper interpretability.  
+- Wrap the trained model into an API or dashboard (e.g., Streamlit) for interactive risk estimation.
 
-Kaggle / Jupyter / Colab environment
+If you replicate or modify this work, feel free to open an issue or pull request with your improvements.
 
-Required libraries:
+---
 
-pandas
-numpy
-matplotlib
-seaborn
-scikit-learn
+## Acknowledgements
 
-Steps
+- **Dataset**:  
+  Hypertension dataset created by **Arif Miah**, available on Kaggle under the **Apache 2.0 License**. Please cite and credit the original author when using the data. [file:1]
 
-Clone the repository:
+- **AI assistance**:  
+  Narrative structure, section organization, and some refinements to the modelling and interpretation were supported by an AI assistant (Perplexity). [file:1]
 
-git clone https://github.com/your-username/your-repo.git
+---
 
+## Repository license
 
-Open the notebook in Jupyter, Kaggle, or Google Colab.
+The **code and notebook** in this repository are released under the **Apache 2.0 License**, consistent with the dataset’s license. See the `LICENSE` file for full terms.
 
-Ensure the hypertension dataset is available at:
+When using this project, ensure that you comply with both the repository license and the original Kaggle dataset license.
+```
 
-/kaggle/input/hypertension-dataset/hypertension_dataset.csv
-
-
-Run cells sequentially.
-
-🚀 7. Future Work
-
-Build a Streamlit dashboard for real-time predictions.
-
-Deploy the model as an API using FastAPI or Flask.
-
-Collect youth-specific data to create a model tailored for ages 18–35.
-
-Add SHAP analysis for deeper model explainability.
-
-Expand dataset with:
-
-Dietary patterns
-
-Physical activity logs
-
-Genetic/family risk factors.

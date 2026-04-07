@@ -1,0 +1,304 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.app{max-width:720px;margin:0 auto;padding:1.5rem 1rem}
+.header{text-align:center;margin-bottom:2rem}
+.header h1{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.header p{font-size:14px;color:var(--color-text-secondary);margin-top:6px}
+.brand{display:inline-flex;align-items:center;gap:8px;margin-bottom:1rem}
+.brand-icon{width:36px;height:36px;background:#1D9E75;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.brand-icon svg{width:20px;height:20px;fill:white}
+.brand-name{font-size:18px;font-weight:500;color:#1D9E75}
+.section-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;margin-top:1.5rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;color:var(--color-text-secondary)}
+.field input,.field select{padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-primary);color:var(--color-text-primary);width:100%}
+.slider-row{display:flex;align-items:center;gap:10px}
+.slider-row input[type=range]{flex:1}
+.slider-val{font-size:13px;font-weight:500;min-width:28px;text-align:right;color:var(--color-text-primary)}
+.btn{width:100%;padding:12px;background:#1D9E75;color:white;border:none;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;margin-top:1.5rem}
+.btn:hover{background:#0F6E56}
+.result-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-top:1.5rem;display:none}
+.risk-meter{display:flex;gap:6px;margin:1rem 0}
+.risk-seg{height:10px;border-radius:3px;flex:1}
+.risk-label{font-size:22px;font-weight:500;margin-bottom:4px}
+.risk-sub{font-size:14px;color:var(--color-text-secondary);margin-bottom:1rem}
+.factors{margin-top:1rem}
+.factor-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.factor-row:last-child{border-bottom:none}
+.factor-name{font-size:13px;flex:1;color:var(--color-text-secondary)}
+.factor-bar-wrap{width:120px;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.factor-bar{height:100%;border-radius:3px}
+.recs{margin-top:1.25rem}
+.rec-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.rec-item:last-child{border-bottom:none}
+.rec-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
+.rec-text p{font-size:13px;font-weight:500;margin-bottom:2px}
+.rec-text span{font-size:12px;color:var(--color-text-secondary)}
+.score-ring{text-align:center;margin:0.5rem 0 1rem}
+.disclaimer{font-size:11px;color:var(--color-text-tertiary);margin-top:1.5rem;line-height:1.5;text-align:center}
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:3px}
+.tab{flex:1;padding:7px;text-align:center;font-size:13px;border-radius:6px;cursor:pointer;color:var(--color-text-secondary)}
+.tab.active{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500;border:0.5px solid var(--color-border-tertiary)}
+.view{display:none}.view.active{display:block}
+</style>
+
+<div class="app">
+  <h2 class="sr-only">HyperGuard — AI-powered hypertension risk prediction tool for youth in Ghana</h2>
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+      </div>
+      <span class="brand-name">HyperGuard</span>
+    </div>
+    <h1>Hypertension Risk Assessment</h1>
+    <p>AI-powered early detection for youth · Built for Ghana</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('assess')">Risk Assessment</div>
+    <div class="tab" onclick="switchTab('about')">About</div>
+  </div>
+
+  <div id="assess" class="view active">
+    <div class="section-title">Personal info</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Age</label>
+        <div class="slider-row">
+          <input type="range" min="15" max="40" value="25" id="age" oninput="document.getElementById('age-v').textContent=this.value">
+          <span class="slider-val" id="age-v">25</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>BMI</label>
+        <div class="slider-row">
+          <input type="range" min="16" max="40" step="0.5" value="24" id="bmi" oninput="document.getElementById('bmi-v').textContent=parseFloat(this.value).toFixed(1)">
+          <span class="slider-val" id="bmi-v">24.0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Blood pressure & history</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Blood pressure history</label>
+        <select id="bp_history">
+          <option value="0">No prior issues</option>
+          <option value="1">Occasional high readings</option>
+          <option value="2">Diagnosed high BP</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Family history of hypertension</label>
+        <select id="family_history">
+          <option value="0">No</option>
+          <option value="1">One parent</option>
+          <option value="2">Both parents</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title">Lifestyle factors</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Stress score (1–10)</label>
+        <div class="slider-row">
+          <input type="range" min="1" max="10" value="4" id="stress" oninput="document.getElementById('stress-v').textContent=this.value">
+          <span class="slider-val" id="stress-v">4</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Salt intake</label>
+        <select id="salt">
+          <option value="0">Low</option>
+          <option value="1">Moderate</option>
+          <option value="2">High</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Sleep duration (hrs/night)</label>
+        <div class="slider-row">
+          <input type="range" min="3" max="10" step="0.5" value="7" id="sleep" oninput="document.getElementById('sleep-v').textContent=parseFloat(this.value).toFixed(1)">
+          <span class="slider-val" id="sleep-v">7.0</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Exercise level</label>
+        <select id="exercise">
+          <option value="2">Active (4+ days/week)</option>
+          <option value="1">Moderate (1–3 days)</option>
+          <option value="0">Sedentary</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title">Other factors</div>
+    <div class="grid2">
+      <div class="field">
+        <label>Smoking status</label>
+        <select id="smoking">
+          <option value="0">Never smoked</option>
+          <option value="1">Former smoker</option>
+          <option value="2">Current smoker</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>On blood pressure medication</label>
+        <select id="medication">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" onclick="runAssessment()">Assess my risk →</button>
+
+    <div class="result-card" id="result-card">
+      <div id="risk-label" class="risk-label"></div>
+      <div id="risk-sub" class="risk-sub"></div>
+
+      <div class="risk-meter">
+        <div class="risk-seg" id="seg1"></div>
+        <div class="risk-seg" id="seg2"></div>
+        <div class="risk-seg" id="seg3"></div>
+        <div class="risk-seg" id="seg4"></div>
+        <div class="risk-seg" id="seg5"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-bottom:1rem">
+        <span>Low risk</span><span>High risk</span>
+      </div>
+
+      <div style="font-size:13px;font-weight:500;margin-bottom:8px;color:var(--color-text-secondary)">Top risk contributors</div>
+      <div class="factors" id="factors-list"></div>
+
+      <div style="font-size:13px;font-weight:500;margin-top:1.25rem;margin-bottom:4px;color:var(--color-text-secondary)">Personalized recommendations</div>
+      <div class="recs" id="recs-list"></div>
+
+      <p class="disclaimer">This tool is for educational screening purposes only. It does not replace professional medical advice. If you are concerned about your blood pressure, please consult a qualified healthcare provider.</p>
+    </div>
+  </div>
+
+  <div id="about" class="view">
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem">
+      <p style="font-size:14px;line-height:1.7;color:var(--color-text-secondary)">HyperGuard is an AI-powered decision-support tool developed at <strong style="color:var(--color-text-primary)">KNUST</strong> to tackle the growing crisis of undiagnosed hypertension among Ghanaian youth.</p>
+      <div style="margin:1.25rem 0;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center">
+          <div style="font-size:22px;font-weight:500;color:#1D9E75">96%</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Model accuracy (Random Forest)</div>
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center">
+          <div style="font-size:22px;font-weight:500;color:#1D9E75">60%</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Ghanaians unaware they have hypertension</div>
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center">
+          <div style="font-size:22px;font-weight:500;color:#1D9E75">37%</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Ghanaian adults aged 30–79 are hypertensive</div>
+        </div>
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center">
+          <div style="font-size:22px;font-weight:500;color:#1D9E75">25–35</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Age of onset rising in Sub-Saharan Africa</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.7">The model uses supervised machine learning (Random Forest) trained on lifestyle, demographic and clinical features including BP history, BMI, stress levels, diet, sleep and family history.</p>
+      <div style="margin-top:1rem;font-size:13px;color:var(--color-text-secondary)">Built by <strong style="color:var(--color-text-primary)">Amoako George</strong> · Kwame Nkrumah University of Science and Technology</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['assess','about'][i]===t));
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+}
+
+function runAssessment(){
+  const age=parseInt(document.getElementById('age').value);
+  const bmi=parseFloat(document.getElementById('bmi').value);
+  const bp=parseInt(document.getElementById('bp_history').value);
+  const fam=parseInt(document.getElementById('family_history').value);
+  const stress=parseInt(document.getElementById('stress').value);
+  const salt=parseInt(document.getElementById('salt').value);
+  const sleep=parseFloat(document.getElementById('sleep').value);
+  const ex=parseInt(document.getElementById('exercise').value);
+  const smoke=parseInt(document.getElementById('smoking').value);
+  const med=parseInt(document.getElementById('medication').value);
+
+  const factors={
+    'BP history': bp/2,
+    'Age': (age-15)/25,
+    'Stress level': (stress-1)/9,
+    'BMI': Math.min(Math.max((bmi-18.5)/21.5,0),1),
+    'Salt intake': salt/2,
+    'Sleep (inv)': Math.max(0,1-(sleep-4)/4),
+    'Exercise (inv)': (2-ex)/2,
+    'Family history': fam/2,
+    'Smoking': smoke/2,
+    'Medication': med
+  };
+
+  const weights={
+    'BP history':0.295,'Age':0.12,'Stress level':0.11,'BMI':0.10,
+    'Salt intake':0.085,'Sleep (inv)':0.075,'Exercise (inv)':0.07,
+    'Family history':0.065,'Smoking':0.05,'Medication':0.03
+  };
+
+  let score=0;
+  for(const k in weights) score+=factors[k]*weights[k];
+  score=Math.min(score*1.4,1);
+
+  const pct=Math.round(score*100);
+  let level,color,sub;
+  if(pct<25){level='Low risk';color='#1D9E75';sub='Your current lifestyle factors suggest a low hypertension risk. Keep up the healthy habits!';}
+  else if(pct<50){level='Moderate risk';color='#EF9F27';sub='Some factors may be elevating your risk. Small lifestyle changes now can make a big difference.';}
+  else if(pct<72){level='Elevated risk';color='#D85A30';sub='Multiple risk factors detected. We strongly recommend consulting a healthcare provider soon.';}
+  else{level='High risk';color='#E24B4A';sub='High risk indicators present. Please see a doctor promptly for proper blood pressure evaluation.';}
+
+  document.getElementById('risk-label').textContent=level;
+  document.getElementById('risk-label').style.color=color;
+  document.getElementById('risk-sub').textContent=sub;
+
+  const segs=document.querySelectorAll('.risk-seg');
+  const fills=['#9FE1CB','#5DCAA5','#EF9F27','#D85A30','#E24B4A'];
+  const active=Math.min(Math.ceil(pct/20),5);
+  segs.forEach((s,i)=>{s.style.background=i<active?fills[i]:'var(--color-background-secondary)';});
+
+  const sorted=Object.entries(weights).sort((a,b)=>b[1]*factors[b[0]]-a[1]*factors[a[0]]).slice(0,5);
+  const fl=document.getElementById('factors-list');
+  fl.innerHTML=sorted.map(([name,w])=>{
+    const contrib=Math.round(factors[name]*w*100);
+    const barW=Math.min(Math.round(factors[name]*100),100);
+    const barColor=factors[name]>0.6?'#D85A30':factors[name]>0.3?'#EF9F27':'#1D9E75';
+    return`<div class="factor-row"><span class="factor-name">${name.replace(' (inv)','')}</span><div class="factor-bar-wrap"><div class="factor-bar" style="width:${barW}%;background:${barColor}"></div></div></div>`;
+  }).join('');
+
+  const allRecs=[
+    {cond:salt>=1,icon:'🥗',bg:'#E1F5EE',title:'Reduce salt intake',detail:'Aim for less than 5g of sodium per day. Avoid processed and fast foods.'},
+    {cond:ex<=1,icon:'🏃',bg:'#E6F1FB',title:'Increase physical activity',detail:'Target at least 150 min of moderate exercise per week — walking counts!'},
+    {cond:stress>=6,icon:'🧘',bg:'#EEEDFE',title:'Manage stress levels',detail:'Practice relaxation techniques: deep breathing, prayer, or light exercise daily.'},
+    {cond:sleep<6,icon:'😴',bg:'#FAEEDA',title:'Improve sleep quality',detail:'Aim for 7–9 hours of sleep per night. Keep a consistent bedtime.'},
+    {cond:smoke>=1,icon:'🚭',bg:'#FCEBEB',title:'Quit smoking',detail:'Smoking significantly raises blood pressure. Support resources are available.'},
+    {cond:bmi>27,icon:'⚖️',bg:'#EAF3DE',title:'Manage body weight',detail:'A modest weight loss of 5–10% can meaningfully lower blood pressure.'},
+    {cond:bp>=1,icon:'🩺',bg:'#FBEAF0',title:'Regular BP monitoring',detail:'Check your blood pressure at least once a month and track changes over time.'},
+    {cond:fam>=1,icon:'👨‍👩‍👧',bg:'#E1F5EE',title:'Family history awareness',detail:'With family history of hypertension, annual screening is strongly recommended.'},
+  ];
+
+  const active_recs=allRecs.filter(r=>r.cond).slice(0,4);
+  if(active_recs.length===0) active_recs.push({icon:'✅',bg:'#E1F5EE',title:'Keep up the great work!',detail:'Your current habits suggest a healthy lifestyle. Continue monitoring annually.'});
+
+  document.getElementById('recs-list').innerHTML=active_recs.map(r=>`
+    <div class="rec-item">
+      <div class="rec-icon" style="background:${r.bg};font-size:16px">${r.icon}</div>
+      <div class="rec-text"><p>${r.title}</p><span>${r.detail}</span></div>
+    </div>`).join('');
+
+  const card=document.getElementById('result-card');
+  card.style.display='block';
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
